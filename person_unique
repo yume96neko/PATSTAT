@@ -1,0 +1,41 @@
+SELECT 
+    t206.person_id,
+    t206.psn_name,
+    t206.person_address,
+    t206.person_ctry_code,
+    COUNT(DISTINCT ab.appln_id) AS appln_count,
+    STRING_AGG(CAST(ab.appln_id AS VARCHAR), ', ') AS appln_id_list
+FROM tls206_person AS t206
+JOIN tls207_pers_appln AS pa 
+    ON pa.person_id = t206.person_id
+JOIN tls203_appln_abstr AS ab 
+    ON ab.appln_id = pa.appln_id
+WHERE ab.appln_abstract LIKE '%wind turbine%'
+  AND pa.applt_seq_nr = 1
+GROUP BY 
+    t206.person_id,
+    t206.psn_name,
+    t206.person_address,
+    t206.person_ctry_code
+ORDER BY appln_count DESC;
+
+SELECT 
+    t206.person_id,
+    t206.psn_name,
+    t206.person_address,
+    t206.person_ctry_code,
+    COUNT(DISTINCT ab.appln_id) AS appln_count,
+    STRING_AGG(CAST(ab.appln_id AS VARCHAR), ', ') AS appln_id_list
+FROM tls206_person AS t206
+JOIN tls207_pers_appln AS pa 
+    ON pa.person_id = t206.person_id
+JOIN tls203_appln_abstr AS ab 
+    ON ab.appln_id = pa.appln_id
+WHERE ab.appln_abstract LIKE '%wind turbine%'
+  AND pa.invt_seq_nr = 1
+GROUP BY 
+    t206.person_id,
+    t206.psn_name,
+    t206.person_address,
+    t206.person_ctry_code
+ORDER BY appln_count DESC;
