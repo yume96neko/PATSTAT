@@ -21,6 +21,28 @@ JOIN(
 ) ab ON ab.appln_id = c.cited_appln_id
 WHERE ab.appln_abstract LIKE '%SLAM%';
 
+-- 前方引用
+SELECT
+		*
+FROM(
+		SELECT
+        	cited_appln_id,	
+			pat_publn_id        		        
+		FROM tls212_citation
+) c
+JOIN(
+		SELECT
+        		pat_publn_id,
+                appln_id
+        FROM tls211_pat_publn
+) pp ON pp.pat_publn_id = c.pat_publn_id
+JOIN(
+		SELECT
+        		appln_id,
+                appln_abstract
+        FROM tls203_appln_abstr
+) ab ON ab.appln_id = pp.appln_id
+WHERE ab.appln_abstract LIKE '%SLAM%';
 
 SELECT
 	*
